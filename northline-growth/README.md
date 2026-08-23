@@ -1,8 +1,25 @@
-# Northline Growth — Marketingabteilung
+# Northline Growth — Claude Skills (Alle Abteilungen)
 
 Spezialisierte Claude Skills für **Northline Growth** — eine Social-Media-Marketingagentur für Golfclubs, Tennisvereine, Segelclubs und Freizeitanbieter im Raum Hannover/Hildesheim.
 
-## 📂 Skills in dieser Abteilung
+Diese Dokumentation deckt **3 Abteilungen** ab: Marketing, Social Media, und Design.
+
+---
+
+## 🏛️ Abteilungen (Überblick)
+
+### [1. Marketing Department](./README.md) — Ads, Content-Strategie, Video
+Kampagnen, Redaktionsplanung, Video-Produktion, Copywriting, Analytics.
+
+### [2. Social Media Department](./social-media-department/README.md) — Tägliche Social-Media-Arbeit
+Voice-Builder, Hook-Generator, Content-Matrix, Post-Formatter, Post-Graphics.
+
+### [3. Design Department](./design-department/README.md) — Brand + Website
+Brand-Kit, Design-System, Farb-Palette, Typografie, Website-Redesign.
+
+---
+
+## 📂 Marketing Department — Skills in dieser Abteilung
 
 ### 1. **Meta Ads Kampagnen** (`/meta-ads-campaigns`)
 Erstelle und optimiere Meta-Werbungskampagnen für Mitgliedergewinnung und Buchungen.
@@ -177,25 +194,50 @@ Jeder Skill enthält konkrete Templates:
 
 ---
 
-## 🔄 Abhängigkeiten zwischen Skills
+## 🔄 Abhängigkeiten zwischen Abteilungen
 
 ```
-START (Neuer Kunde)
+START (Neuer Club)
 ↓
-1. Content-Strategy (Jahreskalender) ← MUST-HAVE erste
+1. DESIGN DEPARTMENT
+   → Brand Kit (2–3 Stunden)
+   → Farb-Palette + Typografie definieren
+   → Website-Redesign planen (falls Alt-Website)
 ↓
-2. Analytics (Pixel + GA4 Setup)
+2. MARKETING DEPARTMENT
+   → Content-Strategy (Jahreskalender)
+   → Analytics (Pixel + GA4 Setup)
+   → Meta Ads (Kampagne starten)
 ↓
-3. Meta Ads (Kampagne starten)
+3. SOCIAL MEDIA DEPARTMENT
+   → Voice-Builder (Club-Stimme definieren)
+   → Content-Matrix (24–32 Ideen pro Monat)
+   → Hook-Generator + Post-Formatter (täglich nutzen)
 ↓
-4. Video Production (Dreh buchen)
+4. MARKETING DEPARTMENT (parallel)
+   → Video Production (Drehtag buchen)
+   → Copywriting (Landing Page + Ads)
 ↓
-5. Social Media + Copywriting (Content produzieren)
-↓
-6. Cold Email (falls neue Akquise parallel läuft)
-↓
-END (Launch) → laufen alle parallel → wöchentliche Reporting
+END (Launch) → alle Abteilungen laufen parallel → wöchentliche Reporting
 ```
+
+---
+
+## 🔗 Abteilungs-Integration
+
+**Design → Marketing → Social Media:**
+- Design definiert Brand (Farben, Fonts, Logo)
+- Marketing nutzt Brand für Kampagnen-Creatives
+- Social Media nutzt Brand für täglich Posts
+
+**Marketing ← → Social Media:**
+- Content-Strategy fütter die Matrix (welche Inhalte?)
+- Social Media nutzt Hooks + Formatter (wie postet man?)
+- Beide nutzen Voice-Builder für Konsistenz
+
+**Marketing ← → Design:**
+- Analytics gibt Feedback (welche Bilder funktionieren?)
+- Design optimiert Website basierend auf CRO-Daten
 
 ---
 
@@ -223,6 +265,15 @@ Wenn Fragen: Immer zum **Projektbriefing** in `/home/user/claude-for-legal/CLAUD
 
 ---
 
+---
+
+## 📂 Weitere Abteilungen
+
+- **Social Media Department** — `/social-media-department/README.md`
+- **Design Department** — `/design-department/README.md`
+
+---
+
 **Zuletzt aktualisiert:** 23. August 2026  
-**Verfasser:** Northline Growth — Marketing Department  
+**Verfasser:** Northline Growth — Alle Abteilungen  
 **Version:** 1.0.0 Stable
