@@ -1,0 +1,22 @@
+[project]
+name = "claude-for-legal"
+version = "1.0.0"
+description = "Claude plugins and integrations for legal practice"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+  {name = "Anthropic", email = "support@anthropic.com"}
+]
+license = {text = "MIT"}
+
+dependencies = [
+  # Gemini Notebook MCP - for legal research and content generation
+  "notebooklm-mcp-cli>=0.2.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+compile-bytecode = false

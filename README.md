@@ -23,6 +23,7 @@ What's in the repo:
 - **Practice-area plugins** covering in-house, firm, and academic legal work — each one built around a cold-start interview that learns your playbook and a `CLAUDE.md` practice profile that every skill reads from.
 - **Managed-agent cookbooks** for the scheduled, eyes-on-the-feed workflows (renewal watcher, docket watcher, regulatory feed monitor, diligence grid, launch radar).
 - **MCP connectors** across general productivity (Slack, Google Drive, Box) and legal-specific systems (Ironclad, DocuSign, iManage, Everlaw, CourtListener, and more).
+- **[Gemini Notebook integration](GEMINI_NOTEBOOK_SETUP.md)** — AI-powered research, document summarization, and content generation (podcasts, videos, slide decks) for legal research and knowledge management.
 - **[Named agents](#agents)** — end-to-end workflow agents (Vendor Agreement Reviewer, DSAR Responder, Termination Reviewer, Claim Chart Builder, …) with job-style names and a single command to run each one.
 
 ## Agents
