@@ -17,6 +17,9 @@ Voice-Builder, Hook-Generator, Content-Matrix, Post-Formatter, Post-Graphics.
 ### [3. Design Department](./design-department/README.md) — Brand + Website
 Brand-Kit, Design-System, Farb-Palette, Typografie, Website-Redesign.
 
+### [4. Finance Department](./finance-department/README.md) — Budget + Profitabilität
+Ad-Spend-Tracking, Freelancer-Payments, Client-Profitabilität, Kosten-Kalkulation, Finanzreporting.
+
 ---
 
 ## 📂 Marketing Department — Skills in dieser Abteilung
@@ -199,36 +202,61 @@ Jeder Skill enthält konkrete Templates:
 ```
 START (Neuer Club)
 ↓
-1. DESIGN DEPARTMENT
+1. FINANCE DEPARTMENT
+   → Cost Calculator (Kosten & Preis kalkulieren)
+   → Budget definieren (Ad-Spend für Monat 1)
+↓
+2. DESIGN DEPARTMENT
    → Brand Kit (2–3 Stunden)
    → Farb-Palette + Typografie definieren
    → Website-Redesign planen (falls Alt-Website)
 ↓
-2. MARKETING DEPARTMENT
+3. MARKETING DEPARTMENT
    → Content-Strategy (Jahreskalender)
    → Analytics (Pixel + GA4 Setup)
    → Meta Ads (Kampagne starten)
 ↓
-3. SOCIAL MEDIA DEPARTMENT
+4. SOCIAL MEDIA DEPARTMENT
    → Voice-Builder (Club-Stimme definieren)
    → Content-Matrix (24–32 Ideen pro Monat)
    → Hook-Generator + Post-Formatter (täglich nutzen)
 ↓
-4. MARKETING DEPARTMENT (parallel)
+5. MARKETING DEPARTMENT (parallel)
    → Video Production (Drehtag buchen)
    → Copywriting (Landing Page + Ads)
 ↓
-END (Launch) → alle Abteilungen laufen parallel → wöchentliche Reporting
+MONTHLY OPERATIONS (alle Abteilungen parallel):
+   → Finance: Budget Tracking + Freelancer Payments
+   → Marketing: Analytics + Optimization
+   → Social Media: Daily Posts + Community Mgmt
+   → Design: Iterative Improvements
+↓
+END MONTH:
+   → Finance: Client Profitability + Financial Report
+   → Marketing: Wochenreport (Leads, CPA, ROAS)
 ```
 
 ---
 
 ## 🔗 Abteilungs-Integration
 
-**Design → Marketing → Social Media:**
+**Finance → Design → Marketing → Social Media:**
+- Finance kalkuliert Kosten & setzt Preis
 - Design definiert Brand (Farben, Fonts, Logo)
 - Marketing nutzt Brand für Kampagnen-Creatives
 - Social Media nutzt Brand für täglich Posts
+- Finance trackt Profitabilität aller Phasen
+
+**Finance ← Marketing:**
+- Budget Tracking überwacht Ad-Spend
+- Client Profitability misst ROI
+- Cost Calculator definiert nächsten Preis
+- Financial Report zeigt Gewinn pro Client
+
+**Finance ← Social Media:**
+- Freelancer Payments zahlt Social-Manager
+- Financial Report trackt Content-Kosten
+- Profitabilität hängt von Social-Performance ab (Engagement = bessere ROI)
 
 **Marketing ← → Social Media:**
 - Content-Strategy fütter die Matrix (welche Inhalte?)
@@ -267,13 +295,17 @@ Wenn Fragen: Immer zum **Projektbriefing** in `/home/user/claude-for-legal/CLAUD
 
 ---
 
-## 📂 Weitere Abteilungen
+## 📂 Alle Abteilungen (Quick Links)
 
-- **Social Media Department** — `/social-media-department/README.md`
-- **Design Department** — `/design-department/README.md`
+- **Marketing Department** — `/README.md` (7 Skills)
+- **Social Media Department** — `/social-media-department/README.md` (5 Skills)
+- **Design Department** — `/design-department/README.md` (5 Skills)
+- **Finance Department** — `/finance-department/README.md` (5 Skills)
+
+**TOTAL: 22 Skills + 4 Department-READMEs + Main README**
 
 ---
 
 **Zuletzt aktualisiert:** 23. August 2026  
 **Verfasser:** Northline Growth — Alle Abteilungen  
-**Version:** 1.0.0 Stable
+**Version:** 1.0.0 Stable (Complete)
