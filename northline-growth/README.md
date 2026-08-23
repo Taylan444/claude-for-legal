@@ -22,6 +22,49 @@ Ad-Spend-Tracking, Freelancer-Payments, Client-Profitabilität, Kosten-Kalkulati
 
 ---
 
+## 📋 Skills Standard & Aktivierung
+
+Diese Northline Growth Skills folgen der **[Agent Skills Specification](https://agentskills.io/specification.md)** (AGENTS.md Standard) für Cross-Agent-Kompatibilität. Jeder Skill ist Selbstständig (keine Abhängigkeiten zu anderen).
+
+### Skill-Struktur
+- **Verzeichnis:** Jeder Skill in eigenem Ordner mit kanonischem Namen (z.B. `meta-ads-campaigns/`)
+- **Datei:** `SKILL.md` mit YAML-Frontmatter (`name`, `description`, `metadata.version`)
+- **Länge:** ~400–2,500 Zeilen pro Skill (detaillierte Inhalte, Checklisten, Templates, Szenarien)
+- **Trigger-Phrases:** Jede Skill-Beschreibung enthält Anwendungs-Kontext
+
+### Skill-Aktivierung
+
+**Option 1: Claude Code Web / Desktop (.claude/skills/)**
+```bash
+# 1. Repository klonen
+git clone https://github.com/taylan444/claude-for-legal.git
+cd claude-for-legal/northline-growth
+
+# 2. Skills in lokales Verzeichnis kopieren
+mkdir -p ~/.claude/skills/northline-growth
+cp -r */ ~/.claude/skills/northline-growth/
+
+# 3. Claude Code neustarten → Skills laden automatisch
+```
+
+**Option 2: Claude CLI**
+```bash
+# Skills aktivieren via CLI
+cd northline-growth
+claude skill load .
+```
+
+**Option 3: Full Plugin-Struktur** (später)
+```bash
+# Wenn als vollständiger Claude Code Plugin aktiviert
+/plugin install northline-growth
+```
+
+### Versions-Tracking
+Siehe [VERSIONS.md](./VERSIONS.md) für zentrale Versionshistorie aller 22 Skills (aktuell v1.0.0 — Complete).
+
+---
+
 ## 📂 Marketing Department — Skills in dieser Abteilung
 
 ### 1. **Meta Ads Kampagnen** (`/meta-ads-campaigns`)
