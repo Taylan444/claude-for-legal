@@ -34,6 +34,7 @@ If a skill goes wrong after install: `/legal-builder-hub:disable [skill]` quiets
 ## Prerequisites
 
 - Slack notifications from the registry-sync agent require a Slack MCP server configured in your environment. Without one, the agent writes its digest to a file.
+- The Vapi connector (voice assistants and outbound calls) authenticates with a Vapi API key sent as a bearer token — see `.mcp.json`. It is optional; without it, nothing else in the hub changes. `create_call` places a real phone call, so confirm the number and the assistant before running it.
 - The default registry list in `~/.claude/plugins/config/claude-for-legal/legal-builder-hub/CLAUDE.md` ships empty except for `lpm-skills`. Add registries you trust via `/legal-builder-hub:registry-browser` or by editing `~/.claude/plugins/config/claude-for-legal/legal-builder-hub/CLAUDE.md`.
 
 ## Commands
