@@ -34,13 +34,26 @@ plugin will work, and there is no workaround short of a different connector.
 - The [ChatGPT desktop app](https://chatgpt.com/download), installed, running, and signed in
 - Node 18+ (`npx` on PATH). Bun works too if running from a clone.
 - The `ChatGPT` MCP server from this plugin's `.mcp.json`, which runs
-  `npx -y claude-chatgpt-mcp` — the upstream project is
+  `npx -y claude-chatgpt-mcp@1.0.1` — the upstream project is
   [syedazharmbnr1/claude-chatgpt-mcp](https://github.com/syedazharmbnr1/claude-chatgpt-mcp) (MIT).
+
+**The published build lags the repo.** npm `1.0.1` was published 2025-03-29 and is
+still the only published version; the GitHub repo has commits after it (through
+2025-06-03) that the tarball does not contain — among them an extra "is ChatGPT
+actually running" guard inside the AppleScript that drives the ask. The pinned
+`npx` path is the reproducible one and is what this plugin ships. If a user hits
+flakiness that the newer commits address, the fix is to clone the repo, run
+`bun install`, and point the server at `bun run /path/to/claude-chatgpt-mcp/index.ts`
+instead — same tool, same operations, just a build they control. Tell them that
+trade-off rather than silently switching them to unpinned `latest`.
 
 ### Steps
 
-1. **Check the app is running.** The tool cannot launch it; it errors if the app
-   is closed. Ask the user to open ChatGPT and sign in.
+1. **Have the app open and signed in.** The server does try to activate ChatGPT
+   itself (`tell application "ChatGPT" to activate`, then a 2-second delay), but
+   that only helps if the app is installed and the user is already signed in — it
+   cannot log in, dismiss an update dialog, or wait longer than those 2 seconds.
+   Ask the user to open it first anyway; a cold activate is the flakiest path.
 2. **Check the server is connected.** Look for the `ChatGPT` MCP server. If it
    isn't listed, the plugin's `.mcp.json` hasn't been picked up — have the user
    run `/mcp` to inspect, and restart Claude Code if it was just installed.
@@ -57,7 +70,8 @@ plugin will work, and there is no workaround short of a different connector.
 
 | Symptom | Cause | Fix |
 |---|---|---|
-| "application process ChatGPT does not exist" | App not running | Open and sign in to ChatGPT |
+| "Could not activate ChatGPT app. Please start it manually." | Not installed, or activation blocked | Install the app, open it, sign in |
+| First call after a cold start returns nothing useful | The 2-second activate delay was too short | Open the app yourself, then re-ask |
 | Errors mentioning permissions, or an empty result every time | Accessibility not granted | Grant it to the terminal/app running Claude Code, then restart that app |
 | `npx` not found / server won't start | Node missing or not on PATH | Install Node 18+, or clone the repo and point the server at `bun run index.ts` |
 | Response comes back cut off | The app was still typing | Re-ask; the tool waits for text to stabilize but long answers can still truncate |

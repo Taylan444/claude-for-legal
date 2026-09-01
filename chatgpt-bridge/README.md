@@ -98,7 +98,7 @@ than acting on them.
     "ChatGPT": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "claude-chatgpt-mcp"]
+      "args": ["-y", "claude-chatgpt-mcp@1.0.1"]
     }
   }
 }
@@ -112,12 +112,21 @@ It runs [`claude-chatgpt-mcp`](https://github.com/syedazharmbnr1/claude-chatgpt-
 Two consequences of the transport worth knowing:
 
 - **It types into a real UI.** A ChatGPT app update can break it until upstream
-  catches up. Responses on long answers can come back truncated, and a call
-  fails outright if the app is closed or a dialog is open.
+  catches up. Responses on long answers can come back truncated, and a call can
+  fail if the app is closed, not signed in, or showing a dialog. The server does
+  try to activate the app itself, but it waits only 2 seconds and cannot sign
+  you in — having it open first is the reliable path.
 - **It is not a sandbox.** Everything sent is a real message in your real ChatGPT
   account, subject to that account's retention and training settings.
 
-This plugin does not vendor or maintain the upstream server; it pins nothing
-beyond the package name, so an `npx` run picks up the latest published version.
-If you'd rather pin a version or audit the code, clone the repo and point the
-server at your local checkout — `/chatgpt-bridge:bridge-setup` covers that path.
+This plugin does not vendor or maintain the upstream server. It pins the exact
+published version, `1.0.1`, so what runs on your machine doesn't change under you
+the next time upstream publishes.
+
+Worth knowing: `1.0.1` was published 2025-03-29 and is still the only version on
+npm, while the GitHub repo has later commits (through 2025-06-03) that the
+published tarball doesn't include — including an extra guard checking that
+ChatGPT is actually running before the script drives it. If you want those fixes
+or want to audit the code yourself, clone the repo, `bun install`, and point the
+server at `bun run /path/to/claude-chatgpt-mcp/index.ts`.
+`/chatgpt-bridge:bridge-setup` covers that path.
