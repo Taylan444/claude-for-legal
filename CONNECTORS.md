@@ -23,8 +23,8 @@ Connectors shipped in the default `.mcp.json` of each plugin:
 
 | Connector | Plugins |
 |---|---|
-| **Slack** | all 12 |
-| **Google Drive** (`gdrive`) | all 12 |
+| **Slack** | all 12 practice plugins |
+| **Google Drive** (`gdrive`) | all 12 practice plugins |
 | **CourtListener** | legal-clinic, ip-legal, litigation-legal, law-student |
 | **Descrybe** | legal-clinic, ip-legal, law-student |
 | **Definely** | commercial-legal, corporate-legal |
@@ -42,6 +42,7 @@ Connectors shipped in the default `.mcp.json` of each plugin:
 | **Linear** | product-legal |
 | **Atlassian (Jira)** | product-legal |
 | **Asana** | product-legal |
+| **ChatGPT** (desktop app, local stdio) | chatgpt-bridge |
 
 See the `.mcp.json` in each plugin directory for the authoritative list.
 

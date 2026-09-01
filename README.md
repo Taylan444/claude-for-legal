@@ -142,6 +142,7 @@ litigation-legal/         # portfolio, matters, holds, demands, depo prep, claim
 legal-clinic/             # clinic setup, student ramp, intake, deadlines, memos, handoffs
 law-student/              # Socratic drilling, outlining, IRAC, bar prep, flashcards
 legal-builder-hub/        # community skill discovery and install with a trust gate
+chatgpt-bridge/           # cross-model second opinion via the ChatGPT desktop app (macOS)
 external_plugins/         # partner-built plugins maintained by their vendors
   cocounsel-legal/        # Thomson Reuters — Westlaw Deep Research via the CoCounsel Legal MCP
 managed-agent-cookbooks/  # Claude Managed Agent cookbooks — one dir per scheduled agent
@@ -268,6 +269,7 @@ Grouped by where the work sits. Each plugin's cold-start interview is what tailo
 | Plugin | What it adds |
 |---|---|
 | **[legal-builder-hub](./legal-builder-hub)** | Community skill discovery and install with a real trust layer — watched registries, a QA framework (`/legal-builder-hub:skills-qa`), SHA-pinned updates, and a mandatory trust check before anything lands in your environment. |
+| **[chatgpt-bridge](./chatgpt-bridge)** | Cross-model second opinion — puts a de-identified version of your question to the ChatGPT desktop app and reports where the two answers diverge. Sanitizes first, shows you the exact prompt, sends nothing without an explicit yes. macOS only. |
 
 ### External / partner-built
 
@@ -306,6 +308,7 @@ These plugins ship connectors for the systems legal teams live in. A connector g
 | **Slack** | Read channels, search, send messages and canvases | all plugins | Your workspace |
 | **Google Drive** | Read docs, sheets, slides; fetch by link | all plugins | Your account |
 | **CoCounsel Legal (Thomson Reuters)** | Westlaw Deep Research — cited reports across caselaw, statutes, regulations, Practical Law | `cocounsel-legal` | Customer subscription; OAuth |
+| **ChatGPT (desktop app)** | Ask the ChatGPT app a question, list conversations, continue a thread | `chatgpt-bridge` | macOS only; local stdio server driving the app, your own ChatGPT account |
 | **Box** | Read files and folders in VDRs and matter rooms | `corporate-legal` | Your tenant |
 | **Ironclad** | Read the contract register, renewal dates, clauses | `commercial-legal` | Customer subscription |
 | **DocuSign / DocuSign CLM** | Envelope status, executed contracts, CLM metadata | `commercial-legal` | Customer subscription |
@@ -554,6 +557,14 @@ The full map across all plugins. The cold-start interview is the first thing to 
 | `/law-student:exam-forecast` | exam-forecast | Analyze past exams to forecast likely emphases |
 | `/law-student:study-plan` | study-plan | Build or update a long-term study plan |
 | `/law-student:session` | study-plan | Run a focused N-question session; update the plan |
+
+### chatgpt-bridge
+
+| Command | Skill | What it does |
+|---|---|---|
+| `/chatgpt-bridge:second-opinion` | second-opinion | Sanitize the question, show the prompt, send it to ChatGPT, report the divergences |
+| `/chatgpt-bridge:chatgpt-history` | chatgpt-history | List ChatGPT conversations, pull one back into Claude, continue a thread |
+| `/chatgpt-bridge:bridge-setup` | bridge-setup | Install and verify the bridge; write the disclosure policy that governs what may be sent |
 
 ### cocounsel-legal (Thomson Reuters)
 

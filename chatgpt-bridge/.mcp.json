@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "ChatGPT": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "claude-chatgpt-mcp"
+      ],
+      "title": "ChatGPT (desktop app)",
+      "description": "Drives the ChatGPT desktop app on macOS via AppleScript — ask a question, list recent conversations, continue an existing thread. Local-only: no API key, no server-side account link."
+    }
+  },
+  "recommendedCategories": [
+    "chat"
+  ]
+}

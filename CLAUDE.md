@@ -1,7 +1,7 @@
 # CLAUDE.md
 
 Guidance for working on this repo. `claude-for-legal` is a Claude Code plugin
-marketplace — twelve first-party legal plugins, one vendor plugin, and five
+marketplace — thirteen first-party legal plugins, one vendor plugin, and five
 managed-agent cookbooks. Most work here is editing prompt content (skills,
 agents, hooks), plugin metadata, or cookbook config — not application code.
 
@@ -9,7 +9,7 @@ agents, hooks), plugin metadata, or cookbook config — not application code.
 
 ```
 .claude-plugin/marketplace.json   # the marketplace manifest — one entry per plugin
-<plugin>/                         # 12 first-party plugins (commercial-legal, privacy-legal, ...)
+<plugin>/                         # 13 first-party plugins (commercial-legal, privacy-legal, ...)
   .claude-plugin/plugin.json      # plugin manifest (name, version, description, author)
   .mcp.json                       # MCP servers the plugin connects to
   CLAUDE.md                       # practice-profile TEMPLATE (see "Plugin CLAUDE.md" below)

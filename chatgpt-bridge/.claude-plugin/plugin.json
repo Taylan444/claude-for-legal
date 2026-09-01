@@ -1,0 +1,8 @@
+{
+  "name": "chatgpt-bridge",
+  "version": "0.1.0",
+  "description": "Bridges Claude to the ChatGPT desktop app on macOS for cross-model second opinions — sanitizes the question before it leaves your tenant, sends only what you approve, and returns a side-by-side comparison that flags where the two models disagree.",
+  "author": {
+    "name": "Anthropic"
+  }
+}
