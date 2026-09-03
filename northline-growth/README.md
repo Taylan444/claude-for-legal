@@ -9,6 +9,7 @@ Datenbank-Instanz, **n** Kunden. Ein neuer Kunde ist eine neue Zeile in
 | Datei | Inhalt |
 | --- | --- |
 | `schema.sql` | Enums, Tabellen, Indizes, Trigger, RPC, View, RLS, Beispiel-Kunde |
+| `onboarding.sql` | Neuen Kunden anlegen, Kanaele nachtragen, Smoke-Test, Uebergabe-Check |
 
 ## Einspielen
 
@@ -24,6 +25,26 @@ Das Skript ist als Erst-Migration (Version 1.0) gedacht und **nicht
 idempotent** — `create type` und der Beispiel-Kunde in Abschnitt 8 laufen beim
 zweiten Durchlauf auf einen Fehler. Fuer Folgeaenderungen eine eigene
 Migration anlegen, nicht diese Datei editieren.
+
+## Neuen Kunden aufschalten
+
+`onboarding.sql` von oben nach unten durcharbeiten — der ganze Vorgang steckt
+in einer Datei:
+
+1. **Kunde anlegen.** Nur den `input`-Block am Anfang anfassen. Die Abfrage
+   gibt `id` und `webhook_secret` zurueck; beides wandert nach Make, danach
+   steht das Secret nirgends sonst.
+2. **Kanaele nachtragen.** Vapi-Assistent, Chatbot, Kalender, CRM — kommt
+   spaeter als der Kunde, deshalb eigene `update`-Bloecke. Nicht gebuchte
+   Kanaele einfach weglassen.
+3. **Smoke-Test.** Legt einen Testlead an, prueft `find_recent_duplicate()`,
+   protokolliert eine Zustellung und zeigt die Dashboard-Zeile. Der Block
+   endet auf `rollback` — beim Kunden bleibt nichts stehen.
+4. **Uebergabe-Check.** Eine Zeile mit `t`/`f` pro Voraussetzung. Die ersten
+   fuenf Spalten muessen `t` sein, die Kanal-Spalten haengen vom Paket ab.
+   Direkt darunter fliegt der Demo-Kunde aus `schema.sql` raus.
+5. **Abschalten.** `active = false` pausiert (Make muss das Flag pruefen),
+   `delete` loescht per Cascade auch alle Leads — vorher exportieren.
 
 ## Datenmodell
 
