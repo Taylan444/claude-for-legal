@@ -2,6 +2,10 @@
 -- Northline Growth · Zentrale Lead-Instanz
 -- Supabase / PostgreSQL Schema  ·  Version 1.0
 -- Mandantenfähig: 1 Instanz, n Kunden (clients.slug = client_id)
+--
+-- Wiederholbar: die Datei laeuft mehrfach durch, ohne zu knallen und
+-- ohne vorhandene Daten anzufassen. Nach einem Abbruch mittendrin
+-- einfach nochmal komplett ausfuehren.
 -- ============================================================
 
 create extension if not exists "pgcrypto";
@@ -9,16 +13,41 @@ create extension if not exists "pgcrypto";
 -- ------------------------------------------------------------
 -- ENUMS
 -- ------------------------------------------------------------
-create type lead_channel as enum ('voice', 'chat', 'form', 'booking', 'manual');
-create type lead_status  as enum ('new', 'notified', 'contacted', 'booked', 'won', 'lost', 'spam');
-create type urgency      as enum ('low', 'normal', 'high');
-create type delivery_kind   as enum ('email', 'sms', 'crm', 'webhook', 'calendar');
-create type delivery_status as enum ('pending', 'sent', 'failed', 'skipped');
+-- create type kennt kein "if not exists" -> pro Typ abfangen.
+do $enums$
+begin
+  create type lead_channel as enum ('voice', 'chat', 'form', 'booking', 'manual');
+exception when duplicate_object then null;
+end $enums$;
+
+do $enums$
+begin
+  create type lead_status as enum ('new', 'notified', 'contacted', 'booked', 'won', 'lost', 'spam');
+exception when duplicate_object then null;
+end $enums$;
+
+do $enums$
+begin
+  create type urgency as enum ('low', 'normal', 'high');
+exception when duplicate_object then null;
+end $enums$;
+
+do $enums$
+begin
+  create type delivery_kind as enum ('email', 'sms', 'crm', 'webhook', 'calendar');
+exception when duplicate_object then null;
+end $enums$;
+
+do $enums$
+begin
+  create type delivery_status as enum ('pending', 'sent', 'failed', 'skipped');
+exception when duplicate_object then null;
+end $enums$;
 
 -- ------------------------------------------------------------
 -- 1) CLIENTS  ·  Die Schablone. Neuer Kunde = neue Zeile.
 -- ------------------------------------------------------------
-create table clients (
+create table if not exists clients (
   id                uuid primary key default gen_random_uuid(),
   slug              text not null unique,          -- "mustermann-dach" -> client_id in allen Payloads
   company_name      text not null,
@@ -60,7 +89,7 @@ comment on table clients is 'Mandanten-Konfiguration. Make liest hier per slug a
 -- ------------------------------------------------------------
 -- 2) LEADS  · Einheitliches Format fuer ALLE Kanaele
 -- ------------------------------------------------------------
-create table leads (
+create table if not exists leads (
   id            uuid primary key default gen_random_uuid(),
   client_id     uuid not null references clients(id) on delete cascade,
   channel       lead_channel not null,
@@ -95,21 +124,21 @@ create table leads (
 );
 
 -- Idempotenz-Schutz: derselbe Vapi-Call darf nie zweimal landen
-create unique index leads_client_external_uniq
+create unique index if not exists leads_client_external_uniq
   on leads (client_id, external_id)
   where external_id is not null;
 
-create index leads_client_created_idx on leads (client_id, created_at desc);
-create index leads_client_phone_idx   on leads (client_id, phone);
-create index leads_status_idx         on leads (client_id, status);
+create index if not exists leads_client_created_idx on leads (client_id, created_at desc);
+create index if not exists leads_client_phone_idx   on leads (client_id, phone);
+create index if not exists leads_status_idx         on leads (client_id, status);
 
 -- Dedupe per Mail: find_recent_duplicate() vergleicht case-insensitiv
-create index leads_client_email_idx   on leads (client_id, lower(email));
+create index if not exists leads_client_email_idx   on leads (client_id, lower(email));
 
 -- ------------------------------------------------------------
 -- 3) LEAD_DELIVERIES · Beweis, dass der Lead rausgegangen ist
 -- ------------------------------------------------------------
-create table lead_deliveries (
+create table if not exists lead_deliveries (
   id         uuid primary key default gen_random_uuid(),
   lead_id    uuid not null references leads(id) on delete cascade,
   kind       delivery_kind not null,
@@ -122,8 +151,8 @@ create table lead_deliveries (
   created_at timestamptz not null default now()
 );
 
-create index lead_deliveries_lead_idx   on lead_deliveries (lead_id);
-create index lead_deliveries_status_idx on lead_deliveries (status)
+create index if not exists lead_deliveries_lead_idx   on lead_deliveries (lead_id);
+create index if not exists lead_deliveries_status_idx on lead_deliveries (status)
   where status in ('pending', 'failed');
 
 -- ------------------------------------------------------------
@@ -136,9 +165,12 @@ begin
 end;
 $$ language plpgsql;
 
+drop trigger if exists clients_touch on clients;
 create trigger clients_touch before update on clients
   for each row execute function touch_updated_at();
-create trigger leads_touch   before update on leads
+
+drop trigger if exists leads_touch on leads;
+create trigger leads_touch before update on leads
   for each row execute function touch_updated_at();
 
 -- ------------------------------------------------------------
@@ -167,7 +199,7 @@ $$ language sql stable;
 --    security_invoker: die View erbt die RLS des Aufrufers,
 --    sonst waere sie ein Loch in Abschnitt 7.
 -- ------------------------------------------------------------
-create view lead_overview with (security_invoker = true) as
+create or replace view lead_overview with (security_invoker = true) as
 select
   l.id, c.slug as client, c.company_name,
   l.channel, l.status, l.urgency,
@@ -201,4 +233,5 @@ values (
   array['buero@musterdach.de'],
   array['+4915112345678'],
   'leads@northline-growth.de'
-);
+)
+on conflict (slug) do nothing;

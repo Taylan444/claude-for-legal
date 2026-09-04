@@ -21,10 +21,25 @@ supabase db execute --file northline-growth/schema.sql
 psql "$SUPABASE_DB_URL" -f northline-growth/schema.sql
 ```
 
-Das Skript ist als Erst-Migration (Version 1.0) gedacht und **nicht
-idempotent** — `create type` und der Beispiel-Kunde in Abschnitt 8 laufen beim
-zweiten Durchlauf auf einen Fehler. Fuer Folgeaenderungen eine eigene
-Migration anlegen, nicht diese Datei editieren.
+Die Datei ist **wiederholbar**: Enums, Tabellen und Indizes werden nur
+angelegt, wenn sie fehlen, Trigger und View werden ersetzt, der Beispiel-Kunde
+landet per `on conflict do nothing`. Bricht ein Lauf mittendrin ab, einfach
+nochmal komplett ausfuehren — vorhandene Kunden, Leads und Zustellnachweise
+bleiben unangetastet. Beim zweiten Lauf meldet Postgres `NOTICE: ... already
+exists, skipping`; das ist der Normalfall, kein Fehler.
+
+Was die Datei **nicht** macht: bestehende Tabellen an ein neueres Schema
+anpassen. `create table if not exists` ueberspringt eine vorhandene Tabelle
+samt abweichender Spalten. Strukturaenderungen gehoeren deshalb weiter in eine
+eigene Migration mit `alter table`, nicht in diese Datei.
+
+Was in der Instanz schon steht:
+
+```sql
+select table_name from information_schema.tables where table_schema = 'public';
+select typname from pg_type where typname in
+  ('lead_channel','lead_status','urgency','delivery_kind','delivery_status');
+```
 
 ## Neuen Kunden aufschalten
 
@@ -59,7 +74,7 @@ in einer Datei:
 - **`lead_deliveries`** — Nachweis pro Zustellversuch (Mail, SMS, CRM,
   Webhook, Kalender) inklusive `attempts` und `error`.
 
-### Idempotenz
+### Idempotenz der Leads (Make-Retries)
 
 `leads_client_external_uniq` ist ein partieller Unique-Index auf
 `(client_id, external_id)`. Wird `external_id` mit der Quell-ID gefuellt
