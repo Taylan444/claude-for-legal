@@ -45,6 +45,28 @@ export const RESTAURANT: TenantConfig = {
     dietaryNeedsConfirmation: true,
   },
   confidenceThreshold: 0.6,
+  branding: {
+    displayName: "Pilot Restaurant",
+    signature: "Pilot Restaurant · Musterstraße 1 · 10115 Berlin · 030 1234567",
+  },
+  notifications: {
+    identity: {
+      fromName: "Pilot Restaurant",
+      fromEmail: "reservierung@pilot-restaurant.example",
+      replyTo: "team@pilot-restaurant.example",
+    },
+    businessRecipients: ["team@pilot-restaurant.example"],
+    internalAlertRecipients: ["alerts@northline.example"],
+    confirmCustomer: true,
+  },
+  webhooks: [
+    {
+      id: "make-crm",
+      url: "https://hook.make.example/abc123",
+      secretRef: "MAKE_WEBHOOK_SECRET_PILOT",
+      events: ["reservation.requested", "escalation.requested"],
+    },
+  ],
 };
 
 export interface TestHarness extends Deps {

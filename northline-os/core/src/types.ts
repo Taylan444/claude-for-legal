@@ -160,6 +160,52 @@ export interface TenantConfig {
   escalation: EscalationRules;
   /** Darunter fragt der Agent nach, statt die Extraktion zu übernehmen. */
   confidenceThreshold: number;
+  branding: Branding;
+  notifications: NotificationSettings;
+  webhooks: readonly OutboundWebhook[];
+}
+
+// ---------------------------------------------------------------------------
+// Benachrichtigungen und ausgehende Integrationen
+// ---------------------------------------------------------------------------
+
+export interface EmailIdentity {
+  fromName: string;
+  fromEmail: string;
+  replyTo?: string | null;
+}
+
+export interface NotificationSettings {
+  identity: EmailIdentity;
+  /** Wer im Betrieb die Anfrage bekommt. */
+  businessRecipients: readonly string[];
+  /** Northline-interne Adressen für Alarme (Dead Letter, Anbieterausfall). */
+  internalAlertRecipients: readonly string[];
+  /**
+   * Bestätigung an den Gast senden? Manche Betriebe wollen jede Anfrage selbst
+   * beantworten — dann darf das System dem Gast nichts schreiben.
+   */
+  confirmCustomer: boolean;
+}
+
+/**
+ * Ausgehender Webhook, typischerweise nach Make.
+ *
+ * `secretRef` ist bewusst eine *Referenz*, nicht das Secret. Die Konfiguration
+ * liegt in der Datenbank; Secrets gehören dorthin nicht. Aufgelöst wird die
+ * Referenz zur Laufzeit über den SecretResolver.
+ */
+export interface OutboundWebhook {
+  id: string;
+  url: string;
+  secretRef: string;
+  events: readonly EventType[];
+}
+
+export interface Branding {
+  displayName: string;
+  /** Erscheint unter der E-Mail, z. B. Anschrift und Telefonnummer. */
+  signature?: string | null;
 }
 
 // ---------------------------------------------------------------------------

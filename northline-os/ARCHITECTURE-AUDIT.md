@@ -23,9 +23,10 @@ entfallen vollständig, weil es nichts gibt, wovon abgelöst werden müsste.
 
 **Gebaut ist inzwischen:** [`core/`](./core/README.md) — der einzige
 Schreibpfad, Postgres-Schema mit Row-Level-Security, Regelwerk, Outbox-
-Dispatcher und Kanal-Adapter. 58 Tests, alle grün, ohne jede Abhängigkeit
-lauffähig. Was noch fehlt, steht ungeschönt in
-[`core/README.md`](./core/README.md) unter „Was noch fehlt".
+Dispatcher, Kanal-Adapter, zentrale Benachrichtigungsschicht und signierte
+ausgehende Webhooks. 78 Tests, alle grün, ohne Laufzeitabhängigkeiten. Was noch
+fehlt, steht ungeschönt in [`core/README.md`](./core/README.md) unter „Was noch
+fehlt" — allen voran der Postgres-Adapter und die HTTP-Schicht.
 
 ---
 

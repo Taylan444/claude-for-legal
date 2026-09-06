@@ -79,6 +79,60 @@ export interface DeliveryPort {
   deliver(event: OutboxEvent): Promise<DeliveryResult>;
 }
 
+/**
+ * Zustellprotokoll je Ziel.
+ *
+ * Der Grund: ein Event geht an mehrere Ziele (Gast-E-Mail, Betriebs-E-Mail,
+ * Make-Webhook). Scheitert nur das letzte, wiederholt der Dispatcher das ganze
+ * Event — ohne dieses Protokoll bekäme der Gast bei jedem Versuch eine weitere
+ * Bestätigung. Bereits zugestellte Ziele werden übersprungen.
+ */
+export interface DeliveryLogEntry {
+  eventId: string;
+  tenantId: string;
+  target: string;
+  /** "skipped" = bewusst nicht gesendet (Mandant deaktiviert, kein Empfänger). */
+  status: "sent" | "failed" | "skipped";
+  providerMessageId?: string | null;
+  error?: string | null;
+}
+
+export interface DeliveryLog {
+  wasDelivered(eventId: string, target: string): Promise<boolean>;
+  record(entry: DeliveryLogEntry): Promise<void>;
+}
+
+/** Löst eine Secret-Referenz aus der Konfiguration in den echten Wert auf. */
+export interface SecretResolver {
+  resolve(ref: string): Promise<string | null>;
+}
+
+export interface EmailMessage {
+  to: readonly string[];
+  fromName: string;
+  fromEmail: string;
+  replyTo?: string | null;
+  subject: string;
+  text: string;
+  /** Verhindert Doppelversand, wenn ein Zustellversuch nach dem Senden abbricht. */
+  idempotencyKey?: string | null;
+}
+
+export interface EmailProvider {
+  send(message: EmailMessage): Promise<{ id: string }>;
+}
+
+export interface HttpRequest {
+  url: string;
+  method: "POST";
+  headers: Record<string, string>;
+  body: string;
+}
+
+export interface HttpClient {
+  send(request: HttpRequest): Promise<{ status: number; body: string }>;
+}
+
 export interface OutboxStore {
   /** Fällige, noch nicht zugestellte, nicht totgelegte Events. */
   claimDue(now: Date, limit: number): Promise<OutboxEvent[]>;

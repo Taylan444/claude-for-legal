@@ -10,7 +10,12 @@
 import type { NorthlineRequest, OutboxEvent } from "../types.ts";
 import type {
   Clock,
+  DeliveryLog,
+  DeliveryLogEntry,
   DeliveryResult,
+  HttpClient,
+  HttpRequest,
+  SecretResolver,
   IdGenerator,
   IdempotencyRecord,
   Logger,
@@ -186,5 +191,58 @@ export class MemoryOutbox implements OutboxStore {
     if (!event) return;
     event.deadLetteredAt = at;
     event.lastError = error;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Zustellung
+// ---------------------------------------------------------------------------
+
+export class MemoryDeliveryLog implements DeliveryLog {
+  entries: DeliveryLogEntry[] = [];
+
+  async wasDelivered(eventId: string, target: string): Promise<boolean> {
+    // "skipped" zählt als erledigt: ein bewusst nicht gesendetes Ziel soll beim
+    // nächsten Versuch nicht doch noch senden.
+    return this.entries.some(
+      (e) => e.eventId === eventId && e.target === target && e.status !== "failed",
+    );
+  }
+
+  async record(entry: DeliveryLogEntry): Promise<void> {
+    this.entries.push({ ...entry });
+  }
+
+  targetsWithStatus(status: DeliveryLogEntry["status"]): string[] {
+    return this.entries.filter((e) => e.status === status).map((e) => e.target);
+  }
+}
+
+export class StaticSecretResolver implements SecretResolver {
+  private secrets: Map<string, string>;
+
+  constructor(secrets: Record<string, string> = {}) {
+    this.secrets = new Map(Object.entries(secrets));
+  }
+
+  async resolve(ref: string): Promise<string | null> {
+    return this.secrets.get(ref) ?? null;
+  }
+}
+
+export class MemoryHttpClient implements HttpClient {
+  requests: HttpRequest[] = [];
+  /** Anzahl der Aufrufe, die scheitern sollen, bevor es klappt. */
+  failures = 0;
+  status = 200;
+  responseBody = "{}";
+
+  async send(request: HttpRequest): Promise<{ status: number; body: string }> {
+    this.requests.push(request);
+    if (this.failures > 0) {
+      this.failures -= 1;
+      throw new Error("Netzwerkfehler");
+    }
+    return { status: this.status, body: this.responseBody };
   }
 }

@@ -16,7 +16,7 @@ Northline-Repository umziehen. Er hat keine Beziehung zu
   (Abschnitte A–I des Master-Prompts). Abschnitt F ist der Bauplan.
 - [`core/`](./core/README.md) — der Kern: der eine Schreibpfad, durch den jeder
   Eingangskanal läuft. Postgres-Schema mit Row-Level-Security, Regelwerk,
-  Outbox-Dispatcher, Kanal-Adapter. 58 Tests.
+  Outbox-Dispatcher, Kanal-Adapter, Benachrichtigungen. 78 Tests.
 
 ## Schnellstart
 
