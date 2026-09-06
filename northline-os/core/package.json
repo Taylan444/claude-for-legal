@@ -1,0 +1,13 @@
+{
+  "name": "@northline/core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Northline OS core domain: the single write path shared by all inbound channels.",
+  "engines": {
+    "node": ">=22.6"
+  },
+  "scripts": {
+    "test": "node --test 'test/*.test.ts'"
+  }
+}

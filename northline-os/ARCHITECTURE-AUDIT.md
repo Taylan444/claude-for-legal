@@ -11,6 +11,24 @@ markiert statt erfunden.
 
 ---
 
+## Nachtrag (2026-09-06) — Abschnitt A ist beantwortet
+
+Rückmeldung auf den Audit: **Es existiert noch nichts.**
+
+Damit entfällt der Audit des Bestandes ersatzlos. Die Abschnitte A, B und D
+bleiben als Beleg der durchgeführten Prüfung stehen; Abschnitt F ist ab jetzt
+kein Zielbild mehr, sondern der Bauplan. Abschnitt G (Migration) reduziert sich
+auf einen Neubau: Phase 1 entfällt als „daneben stellen", die Phasen 2, 3 und 5
+entfallen vollständig, weil es nichts gibt, wovon abgelöst werden müsste.
+
+**Gebaut ist inzwischen:** [`core/`](./core/README.md) — der einzige
+Schreibpfad, Postgres-Schema mit Row-Level-Security, Regelwerk, Outbox-
+Dispatcher und Kanal-Adapter. 58 Tests, alle grün, ohne jede Abhängigkeit
+lauffähig. Was noch fehlt, steht ungeschönt in
+[`core/README.md`](./core/README.md) unter „Was noch fehlt".
+
+---
+
 ## 0. Warum dieser Bericht anders aussieht als beauftragt
 
 Abschnitt 27 verlangt: *„Führe zunächst einen vollständigen Architektur-Audit des
