@@ -1,17 +1,32 @@
 # 05 — Offene Entscheidungen und benötigte Informationen
 
-## Teil 1 — Entscheidungen, die VOR dem Coding fallen müssen
+## Entschieden am 2026-09-21
+
+| # | Thema | Entscheidung |
+| --- | --- | --- |
+| E1 | Repository | **Neues privates Repository** `northline-ai-marketing-manager` |
+| E2 | Hosting | **Vercel (Region Frankfurt) + Managed Postgres in der EU + S3-kompatibler Storage in der EU**, unter der Auflage: keine Vercel-spezifischen Features |
+| E3 | Authentifizierung | **SSO über Google Workspace / Microsoft 365** via Auth.js |
+| E4 | Lead-PII | **Nein.** Nur aggregierte Kennzahlen. Keine Endkunden-Datensätze im System. |
+| E5 | Nicht belegbare AI-Empfehlungen | offen — Vorgabe bis auf Widerspruch: Variante A (speichern, sichtbar als „nicht belegt" markieren) |
+
+Die Begründungen stehen unverändert unten, damit später nachvollziehbar bleibt,
+warum so entschieden wurde.
+
+---
+
+## Teil 1 — Entscheidungen, die VOR dem Coding fallen mussten (E1–E4 entschieden)
 
 Diese fünf ändern die Struktur des Projekts. Nachträglich zu korrigieren kostet Tage
 bis Wochen.
 
-### E1 — Wo lebt der Code? *(Entscheidung D1)*
+### E1 — Wo lebt der Code? *(Entscheidung D1)* — **entschieden: A**
 - **A (Empfehlung):** neues privates Repository `northline-ai-marketing-manager`
 - **B:** Unterverzeichnis `apps/northline/` in diesem Repository
 
 *Warum blockierend:* Betrifft das erste Commit, CI, Secrets und Deployment.
 
-### E2 — Hosting und Region *(Entscheidung D6)*
+### E2 — Hosting und Region *(Entscheidung D6)* — **entschieden: A**
 - **A (Empfehlung):** Vercel (Region Frankfurt) + Managed Postgres in der EU +
   S3-kompatibler Storage in der EU — schnell, wartungsarm, geringe Fixkosten
 - **B:** Hetzner (Deutschland), Docker-Deployment, alles selbst betrieben — volle
@@ -22,7 +37,7 @@ Liste der Unterauftragsverarbeiter in euren AVVs.
 *Entscheidungshilfe:* Wenn auch nur ein Kunden-AVV Hosting in Deutschland verlangt oder
 US-Anbieter ausschließt → B.
 
-### E3 — Authentifizierung *(Entscheidung D4)*
+### E3 — Authentifizierung *(Entscheidung D4)* — **entschieden: A (SSO)**
 - **A (Empfehlung, falls vorhanden):** SSO über euren Identity-Provider
   (Google Workspace / Microsoft 365)
 - **B:** Magic-Link per E-Mail (kein Passwort)
@@ -31,7 +46,7 @@ US-Anbieter ausschließt → B.
 *Warum blockierend:* Auth ist im Fundament (M0) und lässt sich nicht folgenlos tauschen.
 *Frage an dich:* Welchen Identity-Provider nutzt Northline? Wie viele interne Nutzer?
 
-### E4 — Personenbezogene Leaddaten im System?
+### E4 — Personenbezogene Leaddaten im System? — **entschieden: A (nein)**
 - **A (starke Empfehlung):** **Nein.** Nur aggregierte Zahlen ("47 Leads im Juni").
   Keine Namen, Telefonnummern, E-Mail-Adressen von Endkunden.
 - **B:** Ja, inklusive Leaddatensätze.
@@ -40,7 +55,7 @@ US-Anbieter ausschließt → B.
 Zugriffsrechte, Protokollierung und den gesamten DSGVO-Aufwand grundlegend. Für den Zweck
 des Produkts — Kampagnen optimieren — wird B nicht gebraucht.
 
-### E5 — Umgang mit nicht belegbaren AI-Empfehlungen
+### E5 — Umgang mit nicht belegbaren AI-Empfehlungen — **offen**
 - **A (Empfehlung):** Empfehlung wird gespeichert, aber sichtbar als "nicht belegt"
   markiert und in Listen nach hinten sortiert.
 - **B:** Empfehlung wird verworfen und gar nicht angezeigt.
@@ -113,6 +128,17 @@ Diese dokumentiere ich, frage aber nicht nach — Widerspruch jederzeit willkomm
 
 ## Nächster Schritt
 
-Beantworte **E1–E5** (und idealerweise Punkt 3 aus Teil 2). Sobald du **START MVP**
-sagst, beginne ich mit M0 und liefere nach jedem Milestone die in
-`04-implementierungsplan.md` beschriebene Zusammenfassung.
+E1–E4 sind entschieden. Für **M0** fehlt nur noch:
+
+- das leere private Repository `northline-ai-marketing-manager` (ich kann es auf Wunsch
+  anlegen) und Zugriff darauf,
+- Vercel-Projekt und Postgres-Instanz in der EU, oder die Freigabe, beides einzurichten,
+- Bestätigung, dass UI und AI-Ausgaben auf Deutsch sein sollen,
+- Name der Google-Workspace-Domain, auf die der Login beschränkt wird.
+
+Für **M3** (AI) zusätzlich, rechtzeitig vorher: Freigabe zur Übermittlung von
+Kundendaten an einen LLM-Anbieter inkl. AVV-Abdeckung (F5), euer Meta-Ads-Playbook
+und je 2–3 Beispiele für gute und schlechte Strategien/Creatives.
+
+Sobald du **START MVP** sagst, beginne ich mit M0 und liefere nach jedem Milestone die
+in `04-implementierungsplan.md` beschriebene Zusammenfassung.

@@ -13,8 +13,12 @@ Ergebnis der Anforderungs- und Architekturanalyse. **Noch keine Implementierung.
 
 ## Status
 
-Phase 0 abgeschlossen. Implementierung startet erst nach Freigabe ("START MVP")
-und nach Beantwortung der blockierenden Entscheidungen in `05-offene-entscheidungen.md`.
+Phase 0 abgeschlossen. Die strukturellen Entscheidungen E1–E4 sind getroffen:
+eigenes privates Repository, Vercel EU + Managed Postgres in der EU, SSO über
+Google Workspace / Microsoft 365, keine personenbezogenen Leaddaten im System.
+Details in `05-offene-entscheidungen.md`.
+
+Implementierung startet nach Freigabe ("START MVP") mit Milestone M0.
 
 ## Hinweis zum Ablageort
 
